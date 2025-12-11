@@ -47,7 +47,7 @@ public class SimulationControls {
 
         ScrollPane scroll = new ScrollPane(dashboard.getView());    //Wrap the dashboard in a ScrollPane to allow scrolling
         scroll.setFitToWidth(true); //Make the ScrollPane resize its content to fit the width
-        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); //Disable horizontal scrolling
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable horizontal scrolling
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); //Enable vertical scrolling as needed
         //Set preferred size for the ScrollPane
         scroll.setPrefWidth(400);

@@ -24,6 +24,7 @@ public class Dashboard {
     private final Label hotspotLabel = new Label("Congestion Hotspots: -");   //Displays congestion hotpots
 
 
+
     public Dashboard() {
         //Set font size for the Labels
         avgSpeedLabel.setFont(Font.font(18));
