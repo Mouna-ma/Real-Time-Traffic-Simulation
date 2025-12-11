@@ -42,7 +42,7 @@ public class SimulationControls {
 
         this.simulationMap = new SimulationMap(mapPane);
 
-        //Create a new Dashboard instance 
+        //Create a new Dashboard instance
         this.dashboard = new Dashboard();
 
         ScrollPane scroll = new ScrollPane(dashboard.getView());    //Wrap the dashboard in a ScrollPane to allow scrolling
