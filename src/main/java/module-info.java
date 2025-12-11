@@ -2,7 +2,7 @@ module groupfour.trafficsim {
     requires javafx.controls;
     requires javafx.fxml;
     requires traas;
-    requires java.logging;
+    requires org.apache.logging.log4j;
 
     exports groupfour.trafficsim;
     exports groupfour.trafficsim.sim;

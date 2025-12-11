@@ -11,19 +11,29 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ * A Window that allows the user to configure SUMO launch settings.
+ *
+ * @author 8wf92323f
+ */
 public class ConnectWindow {
-    private static final Logger LOGGER = Logger.getLogger(ConnectWindow.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(ConnectWindow.class.getName());
     private final MainWindow parent;
     private final ComboBox<String> comboBox;
     private final TextField textField;
     private final VBox layout;
     private Stage stage;
 
+    /**
+     * Creates the window and its UI elements.
+     *
+     * @param parent the parent window
+     */
     public ConnectWindow(MainWindow parent) {
         this.parent = parent;
 
@@ -72,6 +82,11 @@ public class ConnectWindow {
         );
     }
 
+    /**
+     * Visually opens/starts the window.
+     *
+     * @param parentStage the stage of the parent window
+     */
     public void open(Stage parentStage) {
         assert this.stage == null;
 
@@ -104,7 +119,7 @@ public class ConnectWindow {
         try {
             simulation = new Simulation(binary, configFile);
         } catch (Exception exception) {
-            LOGGER.log(Level.WARNING, "Exception whilst trying to connect to Sumo", exception);
+            LOGGER.error("Exception whilst trying to connect to Sumo", exception);
 
             String message = String.join("\n",
                     "An exception occurred whilst trying to connect to Sumo.",

@@ -17,6 +17,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * The main application window.
+ * It handles the connection process to SUMO and holds all UI elements.
+ *
+ * @author 8wf92323f
+ */
 public class MainWindow extends Application {
     private final BorderPane root;
     private final MenuItem connectMenuItem;
@@ -25,6 +31,9 @@ public class MainWindow extends Application {
     private Stage stage;
     private Simulation simulation;
 
+    /**
+     * Creates the window and its UI elements.
+     */
     public MainWindow() {
         // Menu bar
         Menu sumoMenu = new Menu("SUMO");
@@ -41,12 +50,14 @@ public class MainWindow extends Application {
 
         // Window Elements
         HBox controlBar = new HBox();
-        controlBar.setAlignment(Pos.TOP_CENTER);
-        StackPane canvasPane = new StackPane();
+        controlBar.setAlignment(Pos.CENTER);
+        controlBar.setSpacing(16.0);
+
+        StackPane mapPane = new StackPane();
+
         StackPane dashboardPane = new StackPane();
 
-        this.simulationControls = new SimulationControls(this);
-        this.simulationControls.addUIElements(controlBar, canvasPane, dashboardPane);
+        this.simulationControls = new SimulationControls(this, controlBar, mapPane, dashboardPane);
 
         // Menu bar and Control bar
         VBox vbox = new VBox();
@@ -54,7 +65,7 @@ public class MainWindow extends Application {
 
         // SplitPane of Canvas and Dashboard
         SplitPane splitPane = new SplitPane();
-        splitPane.getItems().addAll(canvasPane, dashboardPane);
+        splitPane.getItems().addAll(mapPane, dashboardPane);
         splitPane.setOrientation(Orientation.HORIZONTAL);
         splitPane.setDividerPositions(0.5);
 
@@ -64,6 +75,11 @@ public class MainWindow extends Application {
         this.root.setCenter(splitPane);
     }
 
+    /**
+     * Called when the application starts and the window gets opened.
+     *
+     * @param stage the main window stage
+     */
     @Override
     public void start(Stage stage) {
         this.stage = stage;
@@ -93,6 +109,11 @@ public class MainWindow extends Application {
         }
     }
 
+    /**
+     * Initializes controls to a new simulation connection.
+     *
+     * @param simulation the simulation to initialize for
+     */
     public void setSimulation(Simulation simulation) {
         assert this.simulation == null; // UI error or function was called wrong
 
@@ -101,6 +122,9 @@ public class MainWindow extends Application {
         this.simulationControls.setSimulation(simulation);
     }
 
+    /**
+     * Resets simulation controls.
+     */
     public void disconnectSimulation() {
         assert this.simulation != null; // UI error or function was called wrong
 

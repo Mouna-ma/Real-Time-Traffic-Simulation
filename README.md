@@ -8,7 +8,10 @@ This project features a real time traffic simulation engine.
 `SUMO > Connect`, select the demanded SUMO binary and path to your .sumocfg file.
 Then press `Start`.
 
-Use the `Step` button to perform a singular simulation step of 0.5s.
+Use the `Step` button to perform a singular simulation step of 0.125s.
+Use the `Start` button to start a continuous simulation  in real-time and the `Stop` button to stop it.
+
+View the simulation in the map window and use your mouse click to move, and your mouse wheel to scale the map.
 
 Disconnect the Simulation via `SUMO > Disconnect`
 
@@ -21,7 +24,7 @@ Disconnect the Simulation via `SUMO > Disconnect`
 
 Open the project in IntelliJ IDEA.
 
-Run the `libs/setup.sh` (Unix) or `libs/setup.cmd` (Windows) to install the TraaS library into your local repository.
+Run the `libs/setup.sh` (Unix) or `libs/setup.cmd` (Windows) to install the TraaS library into your local repository. Make sure java is installed.
 
 (_Will be installed under `~/home/USERNAME/.m2/repository/de/tudresden/traas`_)
 
