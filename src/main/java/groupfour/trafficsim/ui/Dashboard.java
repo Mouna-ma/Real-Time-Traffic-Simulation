@@ -59,7 +59,7 @@ public class Dashboard {
         root.setAlignment(Pos.TOP_LEFT);    //Align to the top left
         root.setPrefWidth(380);    //Preferred width of VBox
         root.setMaxWidth(400);     //Maximum width of VBox
-        root.setStyle("-fx-padding: 20; -fx-background-color: #5f5f5;"); //Background sytle
+        root.setStyle("-fx-padding: 20; -fx-background-color: #d3d3d3;"); //Background style
 
         //Add all UI elements to the root layout
         root.getChildren().addAll(
