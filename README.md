@@ -24,7 +24,11 @@ Disconnect the Simulation via `SUMO > Disconnect`
 
 Open the project in IntelliJ IDEA.
 
-Run the `libs/setup.sh` (Unix) or `libs/setup.cmd` (Windows) to install the TraaS library into your local repository. Make sure java is installed.
+Press `Ctrl` twice to open the `Run Anything` popup and and run:
+
+`mvn install:install-file -Dfile=libs/TraaS.jar -DgroupId=de.tudresden -DartifactId=traas -Dversion=1.1 -Dpackaging=jar`
+
+to install the TraaS library into your local repository. Ensure java is installed and the JAVA_HOME environment variable is set.
 
 (_Will be installed under `~/home/USERNAME/.m2/repository/de/tudresden/traas`_)
 
