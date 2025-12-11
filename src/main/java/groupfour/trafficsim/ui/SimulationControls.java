@@ -134,6 +134,8 @@ public class SimulationControls {
 
         double time = this.simulation.getTime();
 
+        this.simulationMap.update(this.simulation);
+
         int millis = ((int)(time * 1000.0)) % 1000;
         int seconds = ((int)time) % 60;
         int minutes = ((int)time) / 60;
