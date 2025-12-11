@@ -3,8 +3,10 @@ package groupfour.trafficsim.ui;
 import groupfour.trafficsim.sim.Simulation;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
@@ -22,6 +24,7 @@ public class SimulationControls {
     private final Button stopButton;
     private final SimulationMap simulationMap;
     private final AnimationTimer animationTimer;
+    private final Dashboard dashboard;
     private Simulation simulation;
     private boolean simulationUpdatesAvailable = false;
 
@@ -39,7 +42,21 @@ public class SimulationControls {
 
         this.simulationMap = new SimulationMap(mapPane);
 
-        dashboardPane.getChildren().add(new Label("Dashboard"));
+        //Create a new Dashboard instance
+        this.dashboard = new Dashboard();
+
+        ScrollPane scroll = new ScrollPane(dashboard.getView());    //Wrap the dashboard in a ScrollPane to allow scrolling
+        scroll.setFitToWidth(true); //Make the ScrollPane resize its content to fit the width
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); //Disable horizontal scrolling
+        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); //Enable vertical scrolling as needed
+        //Set preferred size for the ScrollPane
+        scroll.setPrefWidth(400);
+        scroll.setPrefHeight(600);
+
+
+        dashboardPane.getChildren().clear();    //Clear any previous content from the dashboard to the container
+        dashboardPane.getChildren().add(scroll);    //Add the ScrollPane containing the dashboard to the container
+        StackPane.setAlignment(scroll, Pos.TOP_LEFT);   //Align to the top left
 
         this.animationTimer = new AnimationTimer() {
             @Override
