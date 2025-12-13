@@ -1,83 +1,117 @@
 package groupfour.trafficsim.ui;
 
+import groupfour.trafficsim.sim.Simulation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-
+/**
+ * A class used for displaying simulation data
+ *
+ * @author dila-ylz, 8wf92323f
+ */
 public class Dashboard {
+    private final Label avgSpeedLabel = new Label("Average Speed: -");      // displays average speed
+    private final Label hotspotLabel = new Label("Congestion Hotspots: -"); // displays congestion hotpots
+    private final BarChart<String, Number> vehicleEdgeDensityChart;           // shows vehicle density per edge
+    private final LineChart<Number, Number> vehicleCountChart;                // shows vehicle count over time
 
-    //Root Layout for the dashboard
-    private VBox root = new VBox(15);
+    public Dashboard(TabPane dashboardPane) {
+        dashboardPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        dashboardPane.setTabDragPolicy(TabPane.TabDragPolicy.FIXED);
 
-    //UI elements
-    private Label avgSpeedLabel = new Label("Avgerage Speed: -");   //Displays average speed
-    private BarChart<String, Number> densityChart;  //Shows vehicle density per edge
-    private final LineChart<Number, Number> vehiclesOverTimeChart;  //Shows vehicle count over time
-    private final Label hotspotLabel = new Label("Congestion Hotspots: -");   //Displays congestion hotpots
+        Tab statisticsTab = new Tab("Statistics");
+        Tab trafficLightSystemsTab = new Tab("Traffic Lights");
 
+        // set font size for the labels
+        this.avgSpeedLabel.setFont(Font.font(18));
+        this.hotspotLabel.setFont(Font.font(18));
 
+        // setup barchart
+        CategoryAxis xAxis = new CategoryAxis(); // x-axis for edges
+        NumberAxis yAxis = new NumberAxis();     // y-axis for number of vehicles
+        xAxis.setLabel("Edges");
+        yAxis.setLabel("Vehicles");
+        this.vehicleEdgeDensityChart = new BarChart<>(xAxis, yAxis);
+        this.vehicleEdgeDensityChart.setTitle("Vehicle Density per Edge");
+        this.vehicleEdgeDensityChart.setPrefHeight(250);
+        this.vehicleEdgeDensityChart.setPrefWidth(380);
+        VBox.setVgrow(this.vehicleEdgeDensityChart, Priority.NEVER); // do not grow vertically
 
-    public Dashboard() {
-        //Set font size for the Labels
-        avgSpeedLabel.setFont(Font.font(18));
-        hotspotLabel.setFont(Font.font(18));
+        // setup line chart
+        NumberAxis timeAxis = new NumberAxis();    // x-axis for time
+        NumberAxis vehicleAxis = new NumberAxis(); // y-axis for number of vehicles
+        timeAxis.setLabel("Time (s)");
+        vehicleAxis.setLabel("Vehicles");
+        this.vehicleCountChart = new LineChart<>(timeAxis, vehicleAxis);
+        this.vehicleCountChart.setTitle("Vehicles Over Time");
+        this.vehicleCountChart.setPrefHeight(250);
+        this.vehicleCountChart.setPrefWidth(380);
+        VBox.setVgrow(this.vehicleCountChart, Priority.ALWAYS); // allow this chart to grow vertically
 
-        //BarChart Setup
-        CategoryAxis xAxis = new CategoryAxis();    //X-axis with categories (edges)
-        xAxis.setLabel("Edges");    //Label for X-axis
-        NumberAxis yAxis = new NumberAxis();    //Y-axis with numeric (vehicles)
-        yAxis.setLabel("Vehicles"); //Label for Y-axis
+        // setup layout
+        VBox statisticsRoot = new VBox(15);
+        statisticsRoot.setPadding(new Insets(20)); // padding around the vbox
+        statisticsRoot.setAlignment(Pos.TOP_LEFT);
+        statisticsRoot.setPrefWidth(380);
+        statisticsRoot.setMaxWidth(400);
+        statisticsRoot.setStyle("-fx-padding: 20; -fx-background-color: #d3d3d3;"); // background style
 
-        densityChart = new BarChart<>(xAxis, yAxis);    //Create the bar chart
-        densityChart.setTitle("Vehicle Density per Edge");  //Set chart title
-        densityChart.setPrefHeight(250);    //Preferred height
-        densityChart.setPrefWidth(380);     //Preferred width
-        VBox.setVgrow(densityChart, Priority.NEVER);    //Do not grow vertically
-
-        //LineChart Setup
-        NumberAxis timeAxis = new NumberAxis(); //X-axis for time
-        timeAxis.setLabel("Time (s)");  //Label
-        NumberAxis vehicleAxis = new NumberAxis();  //Y-axis for number of vehicles
-        vehicleAxis.setLabel("Vehicles");   //Label
-
-        vehiclesOverTimeChart = new LineChart<>(timeAxis, vehicleAxis);   //Create the line chart
-        vehiclesOverTimeChart.setTitle("Vehicles Over Time");   //Set chart title
-        vehiclesOverTimeChart.setPrefHeight(250);   //Preferred height
-        vehiclesOverTimeChart.setPrefWidth(380);    //Preferred width
-        VBox.setVgrow(vehiclesOverTimeChart, Priority.ALWAYS);  //Allow this chart to gro vertically
-
-        //Layout Setup
-        root.setPadding(new Insets(20));    //Padding around the VBox
-        root.setAlignment(Pos.TOP_LEFT);    //Align to the top left
-        root.setPrefWidth(380);    //Preferred width of VBox
-        root.setMaxWidth(400);     //Maximum width of VBox
-        root.setStyle("-fx-padding: 20; -fx-background-color: #d3d3d3;"); //Background style
-
-        //Add all UI elements to the root layout
-        root.getChildren().addAll(
-                avgSpeedLabel,
-                hotspotLabel,
-                densityChart,
-                vehiclesOverTimeChart
-
+        // qdd all UI elements to the root layout
+        statisticsRoot.getChildren().addAll(
+                this.avgSpeedLabel,
+                this.hotspotLabel,
+                this.vehicleEdgeDensityChart,
+                this.vehicleCountChart
         );
 
-    }
-    //Returns thr root Layout to be added to a scene
-    public VBox getView() {
-        return root;
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(statisticsRoot);
+        scrollPane.setFitToWidth(true);                                 // make the ScrollPane resize its content to fit the width
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);     // disable horizontal scrolling
+        scrollPane.setPrefWidth(400);
+        scrollPane.setPrefHeight(600);
+        StackPane.setAlignment(scrollPane, Pos.TOP_LEFT);
+
+        statisticsTab.setContent(scrollPane);
+
+        trafficLightSystemsTab.setContent(new Label("Traffic Light Systems"));
+
+        dashboardPane.getTabs().addAll(statisticsTab, trafficLightSystemsTab);
     }
 
-    // public void update(SimulationStats stats) {
-    //    speedLabel.setText("Avg Speed: " + stats.avgSpeed);
-    // usw…
-    //
+    /**
+     * Called when the user starts a simulation
+     *
+     * @param simulation the simulation started
+     */
+    public void init(Simulation simulation) {
+
+    }
+    /**
+     * Called when a simulation step occurred and statistics have to be updated.
+     *
+     * @param simulation the simulation in question
+     */
+    public void update(Simulation simulation) {
+
+    }
+
+    /**
+     * Resets the dashboard.
+     */
+    public void reset() {
+
+    }
 }

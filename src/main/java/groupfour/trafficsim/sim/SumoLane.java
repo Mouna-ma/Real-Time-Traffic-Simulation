@@ -12,7 +12,7 @@ import it.polito.appeal.traci.SumoTraciConnection;
  */
 public class SumoLane {
     private final String laneId;
-    private final double[] geometry;
+    private final double[][] geometry;
     private final double laneWidth;
     private final SumoEdge edge;
 
@@ -23,12 +23,12 @@ public class SumoLane {
         this.laneWidth = (double)connection.do_job_get(Lane.getWidth(this.laneId));
 
         SumoGeometry geometry = (SumoGeometry)connection.do_job_get(Lane.getShape(laneId));
-        this.geometry = new double[geometry.coords.size() * 2];
+        this.geometry = new double[geometry.coords.size()][2];
 
         for (int i = 0; i < geometry.coords.size(); ++i) {
             SumoPosition2D pos = geometry.coords.get(i);
-            this.geometry[2 * i] = pos.x;
-            this.geometry[2 * i + 1] = pos.y;
+            this.geometry[i][0] = pos.x;
+            this.geometry[i][1] = pos.y;
         }
     }
 
@@ -41,10 +41,10 @@ public class SumoLane {
 
     /**
      * @return the lanes geometry given as an array
-     *         of alternating x and y coordinates
-     *         [x0, y0, x1, y1, ...]
+     *         of 2d coordinates
+     *         [[x0, y0], [x1, y1], ...]
      */
-    public double[] getGeometry() {
+    public double[][] getGeometry() {
         return this.geometry;
     }
 

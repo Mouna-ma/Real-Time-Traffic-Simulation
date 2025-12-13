@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -55,9 +52,9 @@ public class MainWindow extends Application {
 
         StackPane mapPane = new StackPane();
 
-        StackPane dashboardPane = new StackPane();
+        TabPane dashboardPane = new TabPane();
 
-        this.simulationControls = new SimulationControls(this, controlBar, mapPane, dashboardPane);
+        this.simulationControls = new SimulationControls(controlBar, mapPane, dashboardPane);
 
         // Menu bar and Control bar
         VBox vbox = new VBox();

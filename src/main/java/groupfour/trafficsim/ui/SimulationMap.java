@@ -19,7 +19,6 @@ import java.util.List;
  * @author 8wf92323f
  */
 public class SimulationMap {
-    private final StackPane pane;
     private final Group root = new Group();
     private SimulationMap.Camera camera;
     private boolean active = false;
@@ -30,14 +29,13 @@ public class SimulationMap {
     private final Scale cameraScaleTransform = new Scale();
 
     public SimulationMap(StackPane mapPane) {
-        this.pane = mapPane;
-        this.pane.setAlignment(Pos.TOP_LEFT); // set (x=0, y=0) to top left
-        this.pane.setMinSize(0.0, 0.0);
-        this.pane.getChildren().add(this.root);
+        mapPane.setAlignment(Pos.TOP_LEFT); // set (x=0, y=0) to top left
+        mapPane.setMinSize(0.0, 0.0);
+        mapPane.getChildren().add(this.root);
 
-        this.pane.setOnMouseMoved(this::onMouseMove);
-        this.pane.setOnMouseDragged(this::onMouseDrag);
-        this.pane.setOnScroll(this::onScroll);
+        mapPane.setOnMouseMoved(this::onMouseMove);
+        mapPane.setOnMouseDragged(this::onMouseDrag);
+        mapPane.setOnScroll(this::onScroll);
 
         // dynamic transforms
         // (convert java fx's x-right, y-down system to SUMO's x-right, y-up system)
@@ -45,12 +43,12 @@ public class SimulationMap {
         // flip y-axis
         Scale scaleTransform = new Scale(1.0, -1.0);
         scaleTransform.setPivotX(0.0);
-        scaleTransform.pivotYProperty().bind(this.pane.heightProperty().divide(2.0));
+        scaleTransform.pivotYProperty().bind(mapPane.heightProperty().divide(2.0));
 
         // translate (0, 0) to center of screen
         Translate translateTransform = new Translate();
-        translateTransform.xProperty().bind(this.pane.widthProperty().divide(2.0));
-        translateTransform.yProperty().bind(this.pane.heightProperty().divide(2.0));
+        translateTransform.xProperty().bind(mapPane.widthProperty().divide(2.0));
+        translateTransform.yProperty().bind(mapPane.heightProperty().divide(2.0));
 
         this.root.getTransforms().addAll(
                 scaleTransform,
@@ -144,11 +142,11 @@ public class SimulationMap {
                 polylines[i] = new Polyline();
                 polylines[i].setStrokeWidth(0.9 * lane.getLaneWidth());
 
-                double[] geometry = lane.getGeometry();
+                double[][] geometry = lane.getGeometry();
 
-                for (int j = 0; j < geometry.length / 2; ++j) {
-                    double x = geometry[2 * j];
-                    double y = geometry[2 * j + 1];
+                for (double[] point : geometry) {
+                    double x = point[0];
+                    double y = point[1];
 
                     minX = Math.min(minX, x);
                     maxX = Math.max(maxX, x);
