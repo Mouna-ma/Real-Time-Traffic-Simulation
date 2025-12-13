@@ -1,6 +1,7 @@
 package groupfour.trafficsim.sim;
 
 import de.tudresden.sumo.cmd.Edge;
+import de.tudresden.sumo.cmd.Trafficlight;
 import it.polito.appeal.traci.SumoTraciConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A wrapper for the connection to a SUMO instance.
@@ -24,7 +27,7 @@ public class Simulation {
     private double time = 0.0;
     private final List<SumoEdge> edges = new ArrayList<>();
     private final List<SumoLane> lanes = new ArrayList<>();
-
+    private final Map<String, SumoTrafficLight> trafficLights = new ConcurrentHashMap<>();
     /**
      * Creates a simulation instance by launching SUMO.
      *
@@ -180,6 +183,9 @@ public class Simulation {
     private void update() throws Exception {
         this.time = (double)this.connection.do_job_get(de.tudresden.sumo.cmd.Simulation.getTime());
 
+        for(SumoTrafficLight tls : this.trafficLights.values()) {
+            tls.updateState();
+        }
         // update checks here
 
         if (this.updateListener != null) {
@@ -187,6 +193,23 @@ public class Simulation {
             // simulation state has changed
             this.updateListener.run();
         }
+    }
+
+    //returns the complete TrafficLight Ids of the simulation
+    public List<String> getTrafficLightIds() throws Exception{
+        return(List<String>) connection.do_job_get(Trafficlight.getIDList());
+    }
+
+    public SumoTrafficLight getTrafficLight(String tlsId) {
+        return trafficLights.computeIfAbsent(tlsId, id -> {
+            try {
+                SumoTrafficLight t1 = new SumoTrafficLight(id, this.connection);
+                return t1;
+            } catch (Exception e) {
+                System.err.println("Trafficlight failed");
+                return null;
+            }
+        });
     }
 
     /**

@@ -27,6 +27,7 @@ public class MainWindow extends Application {
     private final SimulationControls simulationControls;
     private Stage stage;
     private Simulation simulation;
+    private StackPane dashboardPane;
 
     /**
      * Creates the window and its UI elements.
@@ -54,6 +55,7 @@ public class MainWindow extends Application {
 
         TabPane dashboardPane = new TabPane();
 
+        this.dashboardPane = new StackPane();
         this.simulationControls = new SimulationControls(controlBar, mapPane, dashboardPane);
 
         // Menu bar and Control bar

@@ -146,7 +146,8 @@ public class SimulationControls {
         this.simulationUpdatesAvailable = false;
 
         this.simulationMap.update(this.simulation);
-        this.dashboard.update(this.simulation);
+        //this.dashboard.update(this.simulation);
+        this.dashboard.refreshSelectedTLS();
 
         double time = this.simulation.getTime();
         int millis = ((int)(time * 1000.0)) % 1000;
