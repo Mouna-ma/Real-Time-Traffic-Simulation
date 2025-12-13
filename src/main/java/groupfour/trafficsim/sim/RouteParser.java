@@ -44,6 +44,7 @@ public class RouteParser {
      */
     public static List<SumoRoute> parseRoutes(String configFilePath, Simulation simulation) throws RuntimeException {
         List<SumoRoute> routes = new ArrayList<>();
+
         try {
             File configFile = new File(configFilePath);
             List<String> routeFilePaths = RouteParser.parseRouteFilePaths(configFile);
@@ -60,8 +61,8 @@ public class RouteParser {
 
                 routes.addAll(RouteParser.parseRouteFile(file, simulation));
             }
-        } catch (Exception esception) {
-            throw new RuntimeException("Exception whilst loading route files", esception);
+        } catch (Exception exception) {
+            throw new RuntimeException("Exception whilst loading route files", exception);
         }
 
         return routes;

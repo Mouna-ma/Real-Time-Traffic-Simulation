@@ -7,16 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.PrintWriter;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A wrapper for the connection to a SUMO instance.
  * All simulation control tasks are managed by this class.
  *
- * @author 8wf92323f
+ * @author 8wf92323f, mikey7303
  */
 public class Simulation {
     private static final Logger LOGGER = LogManager.getLogger(Simulation.class.getName());
@@ -28,6 +25,7 @@ public class Simulation {
     private final List<SumoEdge> edges = new ArrayList<>();
     private final List<SumoLane> lanes = new ArrayList<>();
     private final List<SumoRoute> routes;
+    private final Map<String, SumoVehicle> vehicles = new HashMap<>();
     private double time = 0.0;
 
     /**
@@ -187,7 +185,39 @@ public class Simulation {
     private void update() throws Exception {
         this.time = (double)this.connection.do_job_get(de.tudresden.sumo.cmd.Simulation.getTime());
 
-        // update checks here
+        // VEHICLE UPDATES
+
+        Set<String> vehicleIds = new HashSet<>((List<String>)this.connection.do_job_get(Vehicle.getIDList()));
+        Set<String> storedIds = new HashSet<>(this.vehicles.keySet()); // copy a set of all tracked vehicles
+
+        for (String vehicleId : vehicleIds) {
+            if (!storedIds.contains(vehicleId)) {
+                // if the vehicle is not present,
+                // it was just added to the simulation
+                this.vehicles.put(vehicleId, new SumoVehicle(vehicleId));
+            }
+
+            // we remove all processed ids from storedIds
+            storedIds.remove(vehicleId);
+        }
+
+        // storedIds now only contains ids from vehicles
+        // that are no longer present in the simulation
+        for (String removedVehicleId : storedIds) {
+            SumoVehicle removedVehicle = this.vehicles.remove(removedVehicleId);
+            removedVehicle.markForRemoval();
+        }
+
+        // update all vehicles in simulation
+        for (SumoVehicle vehicle : this.vehicles.values()) {
+            vehicle.update(this.connection);
+        }
+
+
+
+
+
+
 
         if (this.updateListener != null) {
             // ping listener to notify that the
@@ -228,10 +258,6 @@ public class Simulation {
         this.updateListener = updateListener;
     }
 
-    public SumoTraciConnection getConnection() {
-        return this.connection;
-    }
-
     /**
      * @return the current simulation timestamp in seconds
      */
@@ -253,29 +279,43 @@ public class Simulation {
         return this.lanes;
     }
 
-    /*public void set_stessBatch(){
-        this.stressBatch = 50;
-    }*/
+    /**
+     * @return a collection of all vehicles in the simulation
+     */
+    public Collection<SumoVehicle> getVehicles() {
+        return this.vehicles.values();
+    }
 
-    public void injectVehicle(){
-        try     {
-            int count = this.routes.size();
-            int index = RANDOM.nextInt(0,count);
+    /**
+     * Performs a vehicle injection on a random route.
+     */
+    public void injectVehicle() throws RuntimeException {
+        int count = this.routes.size();
+        int index = RANDOM.nextInt(0, count);
+        SumoRoute randomRoute = this.routes.get(index);
 
-            SumoRoute newroute = this.routes.get(index);
-
-            this.connection.do_job_set(Vehicle.add("injVeh"+ System.nanoTime(),
+        try {
+            this.connection.do_job_set(Vehicle.add(
+                    "injectedVeh_" + System.nanoTime() + "_" + RANDOM.nextInt(),
                     "DEFAULT_VEHTYPE",
-                    newroute.getRouteId(),
-                    (int)Math.ceil(this.time),0.0,10.0,(byte)0));
-        }catch(Exception e){
-            //LOGGER.error("error inject vehicle", e);
-            throw new RuntimeException(e);
+                    randomRoute.getRouteId(),
+                    (int)Math.ceil(this.time),
+                    0.0,
+                    10.0,
+                    (byte)0)
+            );
+        } catch (Exception exception) {
+            throw new RuntimeException("Failed to inject vehicle", exception);
         }
     }
 
-    public void batchInjection(int batch){
-        for (int i = 0; i < batch;i++){
+    /**
+     * Performs a batch vehicle injection
+     *
+     * @param batchSize the vehicle count to be inserted
+     */
+    public void batchInjection(int batchSize) throws RuntimeException {
+        for (int i = 0; i < batchSize; ++i){
             this.injectVehicle();
         }
     }
