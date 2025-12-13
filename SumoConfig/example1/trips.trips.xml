@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-12-13 13:00:31.778714 by Eclipse SUMO randomTrips.py UNKNOWN
+<configuration>
+    <net-file value="network.net.xml"/>
+    <route-file value="trips.trips.xml"/>
+    <end value="50.0"/>
+    <period value="0.5"/>
+</configuration>
+-->
+
+<!-- generated on 2025-12-13T13:00:31.767518+01:00 by Eclipse SUMO duarouter 1.25.0
+<duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="network.net.xml"/>
+        <route-files value="trips.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="trips.trips.xml"/>
+        <alternatives-output value="NUL"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="50.0"/>
+    </time>
+
+    <report>
+        <no-warnings value="true"/>
+        <ignore-errors value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</duarouterConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="0" depart="0.00">
+        <route edges="1597 -1597 -1242 -1168 -1148"/>
+    </vehicle>
+    <vehicle id="1" depart="0.50">
+        <route edges="-2020 -184 196 -1956 1960 -1987 -1950"/>
+    </vehicle>
+    <vehicle id="2" depart="1.00">
+        <route edges="1950 1987 -1960 1956 -196 184"/>
+    </vehicle>
+    <vehicle id="3" depart="1.50">
+        <route edges="587 -3 11 23 31 60 92 214 1777 -1739 -1597 -1242"/>
+    </vehicle>
+    <vehicle id="4" depart="2.00">
+        <route edges="-60 60 79 -844 854 1002 -1194 -1150"/>
+    </vehicle>
+    <vehicle id="5" depart="2.50">
+        <route edges="-1946 1940 1956 -196 -172 -148 144 -15 11"/>
+    </vehicle>
+    <vehicle id="6" depart="3.00">
+        <route edges="-1150 1148 -1025 -991 -219 229 1915 -1915"/>
+    </vehicle>
+    <vehicle id="7" depart="3.50">
+        <route edges="164 -162 -75 79 -844 854 1002 -1194 1204"/>
+    </vehicle>
+    <vehicle id="8" depart="4.00">
+        <route edges="-1946 1939 -1747 -1597 1595 -1211 1209 -1469 1469"/>
+    </vehicle>
+    <vehicle id="9" depart="4.50">
+        <route edges="2228 -2192 -1994 -184 190 219 991 1025 -1025"/>
+    </vehicle>
+    <vehicle id="10" depart="5.00">
+        <route edges="2192 -2228 2158 -2020 -184 196 -1956 -1940 1939"/>
+    </vehicle>
+    <vehicle id="11" depart="5.50">
+        <route edges="-3 11 23 31 60 92 214 1777 1781 -1741"/>
+    </vehicle>
+    <vehicle id="12" depart="6.00">
+        <route edges="844 -79 -60 58 -592 -68 -43"/>
+    </vehicle>
+    <vehicle id="13" depart="6.50">
+        <route edges="-131 123 -144"/>
+    </vehicle>
+    <vehicle id="14" depart="7.00">
+        <route edges="43 -43 -27 -3 15"/>
+    </vehicle>
+    <vehicle id="15" depart="7.50">
+        <route edges="2192 -2228 2158 -2020 -184 196"/>
+    </vehicle>
+    <vehicle id="16" depart="8.00">
+        <route edges="1150 -1150 -873 -865 865"/>
+    </vehicle>
+    <vehicle id="17" depart="8.50">
+        <route edges="-474 462 -1992 -184 190 219 991 1025 1154 1209"/>
+    </vehicle>
+    <vehicle id="18" depart="9.00">
+        <route edges="27 45 592 -58 60 92 214 1777 -1739 -1597 1595"/>
+    </vehicle>
+    <vehicle id="19" depart="9.50">
+        <route edges="462 -462 -206 -5 11 109 131"/>
+    </vehicle>
+    <vehicle id="20" depart="10.00">
+        <route edges="190 219 991 1025 -1148 1150 1194 -1194"/>
+    </vehicle>
+    <vehicle id="21" depart="10.50">
+        <route edges="-1951 -1747 1739 -1777 -219"/>
+    </vehicle>
+    <vehicle id="22" depart="11.00">
+        <route edges="-123 131 148 172 196 -1956"/>
+    </vehicle>
+    <vehicle id="23" depart="11.50">
+        <route edges="-1469 1470 -1002 -854 844 -79 -60 -31 -23 -11 5 206 -206"/>
+    </vehicle>
+    <vehicle id="24" depart="12.00">
+        <route edges="1595 -1212 -1168 -1025 -991 -219 -190 184 1992 -462 -206 -5"/>
+    </vehicle>
+    <vehicle id="25" depart="12.50">
+        <route edges="-45 45 592 -58 60 92 214 1777 -1739 1747 -1939"/>
+    </vehicle>
+    <vehicle id="26" depart="13.00">
+        <route edges="-1992 -184 -172 164 -162 -75 75"/>
+    </vehicle>
+    <vehicle id="27" depart="13.50">
+        <route edges="162 -152 152"/>
+    </vehicle>
+    <vehicle id="28" depart="14.00">
+        <route edges="-1777 -219 -190 196"/>
+    </vehicle>
+    <vehicle id="29" depart="14.50">
+        <route edges="-1747 1739 1785 1940 1956 -583"/>
+    </vehicle>
+    <vehicle id="30" depart="15.00">
+        <route edges="92 214 1777 -1739 1739"/>
+    </vehicle>
+    <vehicle id="31" depart="15.50">
+        <route edges="120 131 148 172 190"/>
+    </vehicle>
+    <vehicle id="32" depart="16.00">
+        <route edges="37 -58 60 92 214"/>
+    </vehicle>
+    <vehicle id="33" depart="16.50">
+        <route edges="-1951 -1747 -1597 1595 -1211 -1154"/>
+    </vehicle>
+    <vehicle id="34" depart="17.00">
+        <route edges="-2213 -1960 1956 -196 184 1994 -1994"/>
+    </vehicle>
+    <vehicle id="35" depart="17.50">
+        <route edges="-1939 -1785 -1777 -214 -92 79"/>
+    </vehicle>
+    <vehicle id="36" depart="18.00">
+        <route edges="55 -55 -27"/>
+    </vehicle>
+    <vehicle id="37" depart="18.50">
+        <route edges="172 -172 164 -162 -64 58 -592"/>
+    </vehicle>
+    <vehicle id="38" depart="19.00">
+        <route edges="612 831 852 -865"/>
+    </vehicle>
+    <vehicle id="39" depart="19.50">
+        <route edges="-1992 -184 196 -1956 1960 -1960"/>
+    </vehicle>
+    <vehicle id="40" depart="20.00">
+        <route edges="120 -109 -11 5 206 462 -1992"/>
+    </vehicle>
+    <vehicle id="41" depart="20.50">
+        <route edges="1212 -1595 1597 1739 -1777 -214 -92 -60 58 -592 -45 55 444 588"/>
+    </vehicle>
+    <vehicle id="42" depart="21.00">
+        <route edges="-583 1915 -1940 1946 -1946"/>
+    </vehicle>
+    <vehicle id="43" depart="21.50">
+        <route edges="E0 -1925 -462 -206 -5 11"/>
+    </vehicle>
+    <vehicle id="44" depart="22.00">
+        <route edges="-131 -120"/>
+    </vehicle>
+    <vehicle id="45" depart="22.50">
+        <route edges="-148 -131 -120 162"/>
+    </vehicle>
+    <vehicle id="46" depart="23.00">
+        <route edges="214 -214 -92 -60 -31 -23 -11 3 -71"/>
+    </vehicle>
+    <vehicle id="47" depart="23.50">
+        <route edges="-1209 -1154 -1025 -991 -214 -92 -60 -31 -23 -11 3 -587"/>
+    </vehicle>
+    <vehicle id="48" depart="24.00">
+        <route edges="E0 -1925 -1992 -184 190 219 991 1025 1168"/>
+    </vehicle>
+    <vehicle id="49" depart="24.50">
+        <route edges="865 -852 844 -79 -60 58 -592 -45 45"/>
+    </vehicle>
+    <vehicle id="50" depart="25.00">
+        <route edges="-109 23 31 60 92 214 1777 -1739 1747 1951"/>
+    </vehicle>
+    <vehicle id="51" depart="25.50">
+        <route edges="1777 -1777 -214 -92 75 120"/>
+    </vehicle>
+    <vehicle id="52" depart="26.00">
+        <route edges="-1992 -184 190 219 1777 -1739 1739"/>
+    </vehicle>
+    <vehicle id="53" depart="26.50">
+        <route edges="-148 152 -162 -75 79 -827"/>
+    </vehicle>
+    <vehicle id="54" depart="27.00">
+        <route edges="-827 831 844"/>
+    </vehicle>
+    <vehicle id="55" depart="27.50">
+        <route edges="5 206 462 -1992 1994 -1994"/>
+    </vehicle>
+    <vehicle id="56" depart="28.00">
+        <route edges="-991 1777 -1739 1741 -1781"/>
+    </vehicle>
+    <vehicle id="57" depart="28.50">
+        <route edges="612 -612 -60 -31 -23 -11 5 206 474"/>
+    </vehicle>
+    <vehicle id="58" depart="29.00">
+        <route edges="-2182 -1994 -184 -172 172"/>
+    </vehicle>
+    <vehicle id="59" depart="29.50">
+        <route edges="1469 -1209 1211 -1595 1597 1739 -1739"/>
+    </vehicle>
+    <vehicle id="60" depart="30.00">
+        <route edges="1987 -1960 1956 -196 -172 164 -162 120"/>
+    </vehicle>
+    <vehicle id="61" depart="30.50">
+        <route edges="2020 -2158 2158 -2020 -184 190 219 991 1025 1168"/>
+    </vehicle>
+    <vehicle id="62" depart="31.00">
+        <route edges="-1002 -854 844 -79 -60 58 -592 -45 -27 -3"/>
+    </vehicle>
+    <vehicle id="63" depart="31.50">
+        <route edges="-11 3 -71 71"/>
+    </vehicle>
+    <vehicle id="64" depart="32.00">
+        <route edges="55 444 588 -5 3"/>
+    </vehicle>
+    <vehicle id="65" depart="32.50">
+        <route edges="-2192 -1994 -184 190 219 991 1025 1168 -1205"/>
+    </vehicle>
+    <vehicle id="66" depart="33.00">
+        <route edges="55 -55 45 592 -58 60 612 827"/>
+    </vehicle>
+    <vehicle id="67" depart="33.50">
+        <route edges="-1242 -1168 -1025 -991 -219 -190 184 1992 1925 -E0"/>
+    </vehicle>
+    <vehicle id="68" depart="34.00">
+        <route edges="-1211 -1154 -1025 -991 -219 -190 184 1994"/>
+    </vehicle>
+    <vehicle id="69" depart="34.50">
+        <route edges="1988 -1986 -1951 -1747 -1597 1595 -1595"/>
+    </vehicle>
+    <vehicle id="70" depart="35.00">
+        <route edges="-854 852 879 1025 1154 1205"/>
+    </vehicle>
+    <vehicle id="71" depart="35.50">
+        <route edges="-1992 1992 -462 -206 -5 5"/>
+    </vehicle>
+    <vehicle id="72" depart="36.00">
+        <route edges="-612 92 214 -219 229 1915 -1940"/>
+    </vehicle>
+    <vehicle id="73" depart="36.50">
+        <route edges="1150 -1150 1148 -1025 -991 -219 -190 196"/>
+    </vehicle>
+    <vehicle id="74" depart="37.00">
+        <route edges="-1925 -462 -206 -5 11 23 -23"/>
+    </vehicle>
+    <vehicle id="75" depart="37.50">
+        <route edges="E0 -1925 -1992 -184 190 219 1777 -1739 1747"/>
+    </vehicle>
+    <vehicle id="76" depart="38.00">
+        <route edges="-68 68 592 -58 60 92 865 873 1150"/>
+    </vehicle>
+    <vehicle id="77" depart="38.50">
+        <route edges="-152 148 172 196 -1956 1960 -1987 -1950"/>
+    </vehicle>
+    <vehicle id="78" depart="39.00">
+        <route edges="-27 -3 11 23 31 60 79 -844 854 1002 -1470 1469"/>
+    </vehicle>
+    <vehicle id="79" depart="39.50">
+        <route edges="-1951 1951 -1946"/>
+    </vehicle>
+    <vehicle id="80" depart="40.00">
+        <route edges="-1211 -1154 -1025 -991 -219 -190 -172 164"/>
+    </vehicle>
+    <vehicle id="81" depart="40.50">
+        <route edges="-1951 -1747 1739 -1777 -214 -92 -60 58 -592 592"/>
+    </vehicle>
+    <vehicle id="82" depart="41.00">
+        <route edges="45 592 -58 60 92 214 1777 -1739 -1597 1595 -1211"/>
+    </vehicle>
+    <vehicle id="83" depart="41.50">
+        <route edges="-196 190 219 1777 1781"/>
+    </vehicle>
+    <vehicle id="84" depart="42.00">
+        <route edges="-1940 1939 -1747 -1597"/>
+    </vehicle>
+    <vehicle id="85" depart="42.50">
+        <route edges="75 120 123"/>
+    </vehicle>
+    <vehicle id="86" depart="43.00">
+        <route edges="-852 844 -79 75 162 -164 172 184 1994 2182"/>
+    </vehicle>
+    <vehicle id="87" depart="43.50">
+        <route edges="2192 -2228 2158 -2020 -184"/>
+    </vehicle>
+    <vehicle id="88" depart="44.00">
+        <route edges="-144 152 -162 -75 79 -79"/>
+    </vehicle>
+    <vehicle id="89" depart="44.50">
+        <route edges="-612 92 865 873 -873"/>
+    </vehicle>
+    <vehicle id="90" depart="45.00">
+        <route edges="1946 -1951 -1747 1739 1785"/>
+    </vehicle>
+    <vehicle id="91" depart="45.50">
+        <route edges="879 1025 1154 1209 -1469"/>
+    </vehicle>
+    <vehicle id="92" depart="46.00">
+        <route edges="-587 -444 -55 43 -43"/>
+    </vehicle>
+    <vehicle id="93" depart="46.50">
+        <route edges="462 -1992 -184 196 -1956 1960 -1987 1988 -1986"/>
+    </vehicle>
+    <vehicle id="94" depart="47.00">
+        <route edges="-184 190 219 991 -879 -852"/>
+    </vehicle>
+    <vehicle id="95" depart="47.50">
+        <route edges="-60 60 92 214 -214"/>
+    </vehicle>
+    <vehicle id="96" depart="48.00">
+        <route edges="-1986 -1951 -1747 1739 -1777 -214 -92 -60 58 -592 -45 43 68"/>
+    </vehicle>
+    <vehicle id="97" depart="48.50">
+        <route edges="-71 444 588 206 462"/>
+    </vehicle>
+    <vehicle id="98" depart="49.00">
+        <route edges="1168 -1168 -1025 -991 -219 -190 -172 -148 -131 -120"/>
+    </vehicle>
+    <vehicle id="99" depart="49.50">
+        <route edges="E0 -1925 -462 -206 -5 11 23 31"/>
+    </vehicle>
+</routes>

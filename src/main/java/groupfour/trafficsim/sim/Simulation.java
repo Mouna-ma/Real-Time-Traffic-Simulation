@@ -19,11 +19,12 @@ public class Simulation {
     private static final Logger LOGGER = LogManager.getLogger(Simulation.class.getName());
     private final SumoTraciConnection connection;
     private Thread thread;
-    private Runnable updateListener;
     private volatile boolean shouldStopSimulation = true;
-    private double time = 0.0;
+    private Runnable updateListener;
     private final List<SumoEdge> edges = new ArrayList<>();
     private final List<SumoLane> lanes = new ArrayList<>();
+    private final List<SumoRoute> routes;
+    private double time = 0.0;
 
     /**
      * Creates a simulation instance by launching SUMO.
@@ -51,6 +52,8 @@ public class Simulation {
 
         try {
             // load constant data
+
+            this.routes = RouteParser.parseRoutes(configFile, this);
 
             List<String> edgeIds = (List<String>)this.connection.do_job_get(Edge.getIDList());
 
