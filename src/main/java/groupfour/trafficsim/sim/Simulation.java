@@ -1,6 +1,7 @@
 package groupfour.trafficsim.sim;
 
 import de.tudresden.sumo.cmd.Edge;
+import de.tudresden.sumo.cmd.Vehicle;
 import it.polito.appeal.traci.SumoTraciConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.PrintWriter;
+import java.util.Random;
 
 /**
  * A wrapper for the connection to a SUMO instance.
@@ -17,6 +20,7 @@ import java.util.List;
  */
 public class Simulation {
     private static final Logger LOGGER = LogManager.getLogger(Simulation.class.getName());
+    private static final Random RANDOM = new Random();
     private final SumoTraciConnection connection;
     private Thread thread;
     private volatile boolean shouldStopSimulation = true;
@@ -247,5 +251,32 @@ public class Simulation {
      */
     public List<SumoLane> getLanes() {
         return this.lanes;
+    }
+
+    /*public void set_stessBatch(){
+        this.stressBatch = 50;
+    }*/
+
+    public void injectVehicle(){
+        try     {
+            int count = this.routes.size();
+            int index = RANDOM.nextInt(0,count);
+
+            SumoRoute newroute = this.routes.get(index);
+
+            this.connection.do_job_set(Vehicle.add("injVeh"+ System.nanoTime(),
+                    "DEFAULT_VEHTYPE",
+                    newroute.getRouteId(),
+                    (int)Math.ceil(this.time),0.0,10.0,(byte)0));
+        }catch(Exception e){
+            //LOGGER.error("error inject vehicle", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void batchInjection(int batch){
+        for (int i = 0; i < batch;i++){
+            this.injectVehicle();
+        }
     }
 }

@@ -22,6 +22,8 @@ public class SimulationControls {
     private final Button stepButton;
     private final Button startButton;
     private final Button stopButton;
+    private final Button injectionButton;
+    private final Button stressTestButton;
     private final SimulationMap simulationMap;
     private final AnimationTimer animationTimer;
     private final Dashboard dashboard;
@@ -38,7 +40,11 @@ public class SimulationControls {
         this.startButton.setOnAction(this::onPressStartButton);
         this.stopButton = new Button("Stop");
         this.stopButton.setOnAction(this::onPressStopButton);
-        controlBar.getChildren().addAll(this.timeLabel, this.stepButton, this.startButton, this.stopButton);
+        this.injectionButton = new Button("Injection");
+        this.injectionButton.setOnAction(this::onPressInjectionButton);
+        this.stressTestButton = new Button("STRESSTEST");
+        this.stressTestButton.setOnAction(this::onPressStressTestButton);
+        controlBar.getChildren().addAll(this.timeLabel, this.stepButton, this.startButton, this.stopButton, this.injectionButton, this.stressTestButton);
 
         this.simulationMap = new SimulationMap(mapPane);
 
@@ -107,6 +113,8 @@ public class SimulationControls {
 
     private void setUIComponentsEnabled(boolean enabled) {
         this.setStepControlsEnabled(enabled, false);
+        this.injectionButton.setDisable(true);
+        this.stressTestButton.setDisable(true);
     }
 
     private void setStepControlsEnabled(boolean stepButtonsEnabled, boolean stopButtonEnabled) {
@@ -129,7 +137,8 @@ public class SimulationControls {
         assert this.simulation != null; // UI Error: button should be disabled
 
         this.setStepControlsEnabled(false, true);
-
+        this.injectionButton.setDisable(false);
+        this.stressTestButton.setDisable(false);
         this.simulation.startContinuous(() -> {
             this.setStepControlsEnabled(true, false);
         });
@@ -139,6 +148,15 @@ public class SimulationControls {
         assert this.simulation != null; // UI Error: button should be disabled
 
         this.simulation.stopContinuous();
+    }
+    private void onPressInjectionButton(ActionEvent event) {
+        assert this.simulation != null; // UI Error: button should be disabled
+
+        this.simulation.injectVehicle();
+    }
+    private void onPressStressTestButton(ActionEvent event){
+        assert this.simulation != null;
+        this.simulation.batchInjection(50);
     }
 
     /**
