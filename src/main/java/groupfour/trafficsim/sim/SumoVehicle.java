@@ -16,7 +16,6 @@ public class SumoVehicle {
     private SumoColor color;
     private double speed;
     private double maxSpeed;
-    private boolean removed = false;
 
     public SumoVehicle(String vehId) {
         this.vehId = vehId;
@@ -46,31 +45,14 @@ public class SumoVehicle {
         return this.maxSpeed;
     }
 
-    public boolean isRemoved() {
-        return this.removed;
-    }
-
-    /**
-     * Marks this vehicle as removed,
-     * so it gets removed from the UI.
-     */
-    public void markForRemoval() {
-        this.removed = true;
-    }
-
     /**
      * Updates the vehicles parameters by fetching them from the SUMO connection
      * @param connection the SUMO connection
      * @throws Exception if an api error occurs
      */
     public void update(SumoTraciConnection connection) throws Exception {
-        if (this.removed) {
-            throw new RuntimeException("The vehicle is marked for removal");
-        }
-
         this.position = (SumoPosition2D)connection.do_job_get(Vehicle.getPosition(this.vehId));
         this.speed = (double)connection.do_job_get(Vehicle.getSpeed(this.vehId));
         this.maxSpeed = (double)connection.do_job_get(Vehicle.getMaxSpeed(this.vehId));
-        this.color = (SumoColor)connection.do_job_get(Vehicle.getColor(this.vehId));
     }
 }

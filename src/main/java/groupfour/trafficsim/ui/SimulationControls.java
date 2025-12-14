@@ -123,6 +123,8 @@ public class SimulationControls {
     private void onPressStartButton(ActionEvent event) {
         assert this.simulation != null; // UI Error: button should be disabled
 
+        this.dashboard.allowInjection();
+
         this.setStepControlsEnabled(false, true);
 
         this.simulation.startContinuous(() -> {

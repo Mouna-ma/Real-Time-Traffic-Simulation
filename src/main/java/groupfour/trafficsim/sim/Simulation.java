@@ -27,6 +27,8 @@ public class Simulation {
     private final List<SumoRoute> routes;
     private final Map<String, SumoVehicle> vehicles = new HashMap<>();
     private double time = 0.0;
+    private long simulationStepDuration = 0L;
+    private long updateStepDuration = 0L;
 
     /**
      * Creates a simulation instance by launching SUMO.
@@ -139,17 +141,20 @@ public class Simulation {
             throw new RuntimeException(exception);
         }
 
-        while (!this.shouldStopSimulation) {
+        while (!this.shouldStopSimulation && !this.isClosed()) {
             try {
-                long stepStartNanoTime = System.nanoTime();
-
+                long t0 = System.nanoTime();
                 this.connection.do_timestep();
+                long t1 = System.nanoTime();
                 this.update();
+                long t2 = System.nanoTime();
 
-                long stepEndNanoTime = System.nanoTime();
-
-                long stepNanoDuration = stepEndNanoTime - stepStartNanoTime;
+                long stepNanoDuration = t2 - t1;
                 long sleepNanoTime = expectedStepNanoDuration - stepNanoDuration;
+
+                // store statistics
+                this.simulationStepDuration = t1 - t0;
+                this.updateStepDuration = t2 - t1;
 
                 if (sleepNanoTime > 0) {
                     long millis = sleepNanoTime / 1_000_000L;
@@ -204,8 +209,7 @@ public class Simulation {
         // storedIds now only contains ids from vehicles
         // that are no longer present in the simulation
         for (String removedVehicleId : storedIds) {
-            SumoVehicle removedVehicle = this.vehicles.remove(removedVehicleId);
-            removedVehicle.markForRemoval();
+            this.vehicles.remove(removedVehicleId);
         }
 
         // update all vehicles in simulation
@@ -263,6 +267,20 @@ public class Simulation {
      */
     public double getTime() {
         return this.time;
+    }
+
+    /**
+     * @return the duration it took to perform one sumo simulation step
+     */
+    public long getSimulationStepDuration() {
+        return this.simulationStepDuration;
+    }
+
+    /**
+     * @return the duration it took to sync the java application with sumo
+     */
+    public long getUpdateStepDuration() {
+        return this.updateStepDuration;
     }
 
     /**

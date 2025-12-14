@@ -2,16 +2,20 @@ package groupfour.trafficsim.ui;
 
 import groupfour.trafficsim.sim.Simulation;
 import groupfour.trafficsim.sim.SumoLane;
+import groupfour.trafficsim.sim.SumoVehicle;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * A Map class that visualizes the Simulation
@@ -19,7 +23,9 @@ import java.util.List;
  * @author 8wf92323f
  */
 public class SimulationMap {
-    private final Group root = new Group();
+    private final Group backgroundGroup = new Group();
+    private final Group vehicleGroup = new Group();
+    private final List<Circle> vehicleIcons = new ArrayList<>();
     private SimulationMap.Camera camera;
     private boolean active = false;
     private double x1;
@@ -31,7 +37,9 @@ public class SimulationMap {
     public SimulationMap(StackPane mapPane) {
         mapPane.setAlignment(Pos.TOP_LEFT); // set (x=0, y=0) to top left
         mapPane.setMinSize(0.0, 0.0);
-        mapPane.getChildren().add(this.root);
+
+        Group root = new Group();
+        mapPane.getChildren().add(root);
 
         mapPane.setOnMouseMoved(this::onMouseMove);
         mapPane.setOnMouseDragged(this::onMouseDrag);
@@ -50,12 +58,14 @@ public class SimulationMap {
         translateTransform.xProperty().bind(mapPane.widthProperty().divide(2.0));
         translateTransform.yProperty().bind(mapPane.heightProperty().divide(2.0));
 
-        this.root.getTransforms().addAll(
+        root.getTransforms().addAll(
                 scaleTransform,
                 translateTransform,
                 this.cameraTranslateTransform,
                 this.cameraScaleTransform
         );
+
+        root.getChildren().addAll(this.backgroundGroup, this.vehicleGroup);
     }
 
     /**
@@ -111,14 +121,11 @@ public class SimulationMap {
         this.active = true;
         this.camera = new Camera();
 
-        /*
-        // Debug
-        Rectangle r1 = new Rectangle(0, 0, 100, 5);
-        r1.setFill(Color.RED);
-        Rectangle r2 = new Rectangle(0, 0, 5, 100);
-        r2.setFill(Color.GREEN);
-        this.root.getChildren().addAll(r, r2);
-         */
+        Rectangle x_axis = new Rectangle(0.0, 0.0, 1.0, 0.05);
+        x_axis.setFill(Color.RED);
+        Rectangle y_axis = new Rectangle(0.0, 0.0, 0.05, 1.0);
+        y_axis.setFill(Color.GREEN);
+        this.backgroundGroup.getChildren().addAll(x_axis, y_axis);
 
         // load road network
 
@@ -130,10 +137,8 @@ public class SimulationMap {
         List<SumoLane> lanes = simulation.getLanes();
 
         if (lanes.isEmpty()) {
-            minX = 0;
-            maxX = 0;
-            minY = 0;
-            maxY = 0;
+            this.camera.x = 0;
+            this.camera.y = 0;
         } else {
             Polyline[] polylines = new Polyline[lanes.size()];
 
@@ -157,11 +162,16 @@ public class SimulationMap {
                 }
             }
 
-            this.root.getChildren().addAll(polylines);
+            Rectangle background = new Rectangle(minX, minY, maxX - minX, maxY - minY);
+            background.setFill(Color.DARKGREEN);
+            this.backgroundGroup.getChildren().add(background);
+
+            this.backgroundGroup.getChildren().addAll(polylines);
+
+            this.camera.x = (maxX - minX) / 2.0;
+            this.camera.y = (maxY - minY) / 2.0;
         }
 
-        this.camera.x = (maxX - minX) / 2.0;
-        this.camera.y = (maxY - minY) / 2.0;
         this.updateTransforms();
     }
 
@@ -172,7 +182,32 @@ public class SimulationMap {
      * @param simulation the simulation in question
      */
     public void update(Simulation simulation) {
+        int iconsExisting = this.vehicleIcons.size();
+        int iconsNeeded = simulation.getVehicles().size();
 
+        // ensure enough icons are available (only runs if iconsExisting < iconsNeeded)
+        for (int i = iconsExisting; i <= iconsNeeded; ++i) {
+            Circle circle = new Circle(1.5, Color.RED);
+            this.vehicleIcons.add(circle);
+            this.vehicleGroup.getChildren().add(circle);
+        }
+
+        // remove unnecessary icons if any exist (only runs if iconsNeeded < iconsExisting)
+        for (int i = iconsNeeded; i <= iconsNeeded; ++i) {
+            Circle circle = this.vehicleIcons.removeLast();
+            this.vehicleGroup.getChildren().remove(circle);
+        }
+
+        // update icons for all vehicles
+
+        int i = 0;
+
+        for (SumoVehicle vehicle : simulation.getVehicles()) {
+            Circle icon = this.vehicleIcons.get(i);
+            icon.setCenterX(vehicle.get_position().x);
+            icon.setCenterY(vehicle.get_position().y);
+            ++i;
+        }
     }
 
     /**
@@ -180,7 +215,9 @@ public class SimulationMap {
      */
     public void reset() {
         this.active = false;
-        this.root.getChildren().clear();
+        this.backgroundGroup.getChildren().clear();
+        this.vehicleGroup.getChildren().clear();
+        this.vehicleIcons.clear();
     }
 
     /**
